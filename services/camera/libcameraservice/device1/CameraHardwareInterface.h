@@ -28,6 +28,7 @@
 #include <system/window.h>
 #include <hardware/camera.h>
 
+#include <common/CameraModule.h>
 #include <common/CameraProviderManager.h>
 #ifdef QCOM_HARDWARE
 #include <vendor/qti/hardware/camera/device/1.0/IQCameraDeviceCallback.h>
@@ -113,6 +114,7 @@ public:
 
     ~CameraHardwareInterface();
 
+    status_t initialize(CameraModule *module);
     status_t initialize(sp<CameraProviderManager> manager);
 
     /** Set the ANativeWindow to which preview frames are sent */
