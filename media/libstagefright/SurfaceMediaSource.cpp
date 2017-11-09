@@ -387,9 +387,14 @@ void SurfaceMediaSource::signalBufferReturned(MediaBuffer *buffer) {
     Mutex::Autolock lock(mMutex);
 
     buffer_handle_t bufferHandle = getMediaBufferHandle(buffer);
+    ANativeWindowBuffer* curNativeHandle = NULL;
 
     for (size_t i = 0; i < mCurrentBuffers.size(); i++) {
+	#ifdef CAMCORDER_GRALLOC_SOURCE
         if (mCurrentBuffers[i]->handle == bufferHandle) {
+#else
+        if ((buffer_handle_t)mCurrentBuffers[i]->getNativeBuffer() == bufferHandle) {
+#endif
             mCurrentBuffers.removeAt(i);
             foundBuffer = true;
             break;
@@ -405,9 +410,14 @@ void SurfaceMediaSource::signalBufferReturned(MediaBuffer *buffer) {
             continue;
         }
 
+#ifdef CAMCORDER_GRALLOC_SOURCE
         if (bufferHandle == mSlots[id].mGraphicBuffer->handle) {
+#else
+        if (bufferHandle == (buffer_handle_t)mSlots[id].mGraphicBuffer->getNativeBuffer()) {
+#endif
             ALOGV("Slot %d returned, matches handle = %p", id,
                     mSlots[id].mGraphicBuffer->handle);
+
 
             mConsumer->releaseBuffer(id, mSlots[id].mFrameNumber,
                                         EGL_NO_DISPLAY, EGL_NO_SYNC_KHR,
