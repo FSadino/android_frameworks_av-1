@@ -175,7 +175,7 @@ private:
     KeyedVector<OMX::buffer_id, OMX_BUFFERHEADERTYPE *> mBufferIDToBufferHeader;
     KeyedVector<OMX_BUFFERHEADERTYPE *, OMX::buffer_id> mBufferHeaderToBufferID;
 
-    // metadata and secure buffer types and graphic buffer mode tracking
+    // metadata and secure buffer type tracking
     MetadataBufferType mMetadataType[2];
     enum SecureBufferType {
         kSecureBufferTypeUnknown,
@@ -183,7 +183,6 @@ private:
         kSecureBufferTypeNativeHandle,
     };
     SecureBufferType mSecureBufferType[2];
-    bool mGraphicBufferEnabled[2];
 
     // For debug support
     char *mName;
