@@ -56,9 +56,9 @@ LOCAL_EXPORT_C_INCLUDES := \
 LOCAL_EXPORT_SHARED_LIBRARY_HEADERS := \
         android.hidl.memory@1.0
 
-ifeq ($(call is-vendor-board-platform,QCOM),true)
-ifeq ($(strip $(AUDIO_FEATURE_ENABLED_EXTN_FLAC_DECODER)),true)
-LOCAL_CFLAGS += -DQTI_FLAC_DECODER
+ifneq ($(TARGET_USES_MEDIA_EXTENSIONS),true)
+ifeq ($(TARGET_HAS_LEGACY_CAMERA_HAL1),true)
+LOCAL_CFLAGS += -DCAMCORDER_GRALLOC_SOURCE
 endif
 endif
 
